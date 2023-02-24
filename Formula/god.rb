@@ -6,6 +6,12 @@ class God < Formula
   license "MIT"
   head "https://github.com/virzz/virzz.git", branch: "master"
 
+  bottle do
+    root_url "https://ghcr.io/v2/virzz/virzz"
+    sha256 cellar: :any_skip_relocation, monterey:     "7c28d5da4f78ba5a785cc06016115d4246cf0922dcc0f03a44c5b454526f41e4"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "e2e6cd08358a20b2ebbf94d273a31ab2d049ff857826d1712f92cec13525281d"
+  end
+
   depends_on "go"
 
   def install
