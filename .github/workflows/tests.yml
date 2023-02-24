@@ -2,13 +2,14 @@ name: brew test-bot
 on:
   push:
     branches:
-      - master
+      - "god-*"
   pull_request:
+
 jobs:
   test-bot:
     strategy:
       matrix:
-        os: [ubuntu-22.04, macos-12]
+        os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Homebrew
@@ -36,9 +37,30 @@ jobs:
       - run: brew test-bot --only-formulae --root-url=https://ghcr.io/v2/virzz/virzz
         if: github.event_name == 'pull_request'
 
+      - name: Build Bottle
+        if: github.event_name == 'pull_request'
+        run: |
+          brew bottle -v --json virzz/virzz/god --root-url=http://virzz-img.ctfhub.com/tools/virzz
+          ls -al
+          mkdir -p bottles
+          ls *.bottle.* | awk -F '--' '{print "cp "$0" ./bottles/"$1"-"$2}' | sh
+          ls -al
+          ls -al ./bottles/
+
+      - name: Upload bottles Qiniu
+        if: always() && github.event_name == 'pull_request'
+        uses: hocgin/action-qiniu-upload@v0.0.5
+        with:
+          access_key: ${{ secrets.QINIU_ACCESS_KEY }}
+          secret_key: ${{ secrets.QINIU_SECRET_KEY }}
+          bucket: ${{ secrets.QINIU_BUCKET }}
+          source_dir: bottles
+          dest_dir: /tools/virzz/ # /tools/virzz/*.bottle.*
+          overwrite: ture
+
       - name: Upload bottles as artifact
         if: always() && github.event_name == 'pull_request'
         uses: actions/upload-artifact@main
         with:
           name: bottles
-          path: '*.bottle.*'
+          path: "*.bottle.*"
