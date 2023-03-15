@@ -1,9 +1,9 @@
 name: brew test-bot
 on:
-  push:
-    branches:
-      - master
   pull_request:
+    branches:
+      - "god-*"
+
 jobs:
   test-bot:
     strategy:
@@ -33,7 +33,7 @@ jobs:
 
       - run: brew test-bot --only-tap-syntax
 
-      - run: brew test-bot --only-formulae --root-url=https://ghcr.io/v2/virzz/virzz
+      - run: brew test-bot --only-formulae --root-url=http://virzz-img.ctfhub.com/tools/virzz
         if: github.event_name == 'pull_request'
 
       - name: Upload bottles as artifact
@@ -41,4 +41,4 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: bottles
-          path: "*.bottle.*"
+          path: "*bottle*"
