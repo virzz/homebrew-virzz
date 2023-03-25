@@ -6,7 +6,6 @@ class God < Formula
       revision: "f3d6c0f01d04b19825174446fc5b97b65f0aa9f7"
   license "MIT"
   head "https://github.com/virzz/virzz.git", branch: "master"
-  license "MIT"
 
   depends_on "go" => :build
 
