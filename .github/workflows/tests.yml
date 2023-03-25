@@ -2,7 +2,7 @@ name: brew test-bot
 on:
   push:
     branches:
-      - "god-*"
+      - "*-*"
   pull_request:
 
 jobs:
@@ -34,18 +34,13 @@ jobs:
 
       - run: brew test-bot --only-tap-syntax
 
-      - run: brew test-bot --only-formulae --root-url=https://ghcr.io/v2/virzz/virzz
-        if: github.event_name == 'pull_request'
-
-      - name: Build Bottle
+      - name: Test and Build Bottles
         if: github.event_name == 'pull_request'
         run: |
-          brew bottle -v --json virzz/virzz/god --root-url=http://virzz-img.ctfhub.com/tools/virzz
-          ls -al
+          brew install go
+          brew test-bot -d --only-formulae --root-url=http://virzz-img.ctfhub.com/tools/virzz
           mkdir -p bottles
           ls *.bottle.* | awk -F '--' '{print "cp "$0" ./bottles/"$1"-"$2}' | sh
-          ls -al
-          ls -al ./bottles/
 
       - name: Upload bottles Qiniu
         if: always() && github.event_name == 'pull_request'
