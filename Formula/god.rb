@@ -7,6 +7,13 @@ class God < Formula
   license "MIT"
   head "https://github.com/virzz/virzz.git", branch: "master"
 
+  bottle do
+    root_url "http://virzz-img.ctfhub.com/tools/virzz"
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "8cce02474a11d7d505085d7ce8a4f44e747080a4d7087592743ae5eeb28b77ad"
+    sha256 cellar: :any_skip_relocation, monterey:      "d9b3efa5e55a27cbbfc5bfd82494b5b1c987730b8fc4d2be81e7414717f9eb35"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "824eb0e3fa0561cc3fdf4bae78bced94b179e6a278472e253a7488692e25030e"
+  end
+
   depends_on "go" => :build
 
   def install
