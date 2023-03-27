@@ -2,7 +2,7 @@ name: brew test-bot
 on:
   push:
     branches:
-      - "god-*"
+      - "enyo-*"
   pull_request:
 
 jobs:
@@ -40,12 +40,9 @@ jobs:
       - name: Build Bottle
         if: github.event_name == 'pull_request'
         run: |
-          brew bottle -v --json virzz/virzz/god --root-url=http://virzz-img.ctfhub.com/tools/virzz
-          ls -al
+          brew bottle -v --json virzz/virzz/enyo --root-url=http://virzz-img.ctfhub.com/tools/virzz
           mkdir -p bottles
           ls *.bottle.* | awk -F '--' '{print "cp "$0" ./bottles/"$1"-"$2}' | sh
-          ls -al
-          ls -al ./bottles/
 
       - name: Upload bottles Qiniu
         if: always() && github.event_name == 'pull_request'
