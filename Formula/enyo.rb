@@ -2,8 +2,8 @@ class Enyo < Formula
   desc "Cyber swiss army knife for terminal"
   homepage "https://github.com/virzz/virzz"
   url "https://github.com/virzz/virzz.git",
-      tag:      "v0.1.8",
-      revision: "372ec633730c75a0f51c9fb6fb914505032b6ad6"
+      tag:      "v0.1.9",
+      revision: "c64de5bf7e7d235f5499271544b08ab48bcfa40b"
   license "MIT"
   head "https://github.com/virzz/virzz.git", branch: "master"
 
